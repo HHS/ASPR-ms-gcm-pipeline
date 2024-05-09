@@ -22,12 +22,12 @@ import gov.hhs.aspr.ms.util.annotations.UnitTestMethod;
 import gov.hhs.aspr.ms.util.resourcehelper.ResourceHelper;
 
 public class AT_PipelineInputResolver {
-    private static final Path REOURCE_DIR = ResourceHelper.getResourceDir(AT_PipelineInputResolver.class);
-    private static final String TEST_OUTPUT_DIR_NAME = "testOutput";
-    private static final Path TEST_OUTPUT_DIR = getResolvedResourcePath(TEST_OUTPUT_DIR_NAME);
-    private static final String TEST_FILE_NAME = "pipeline_tester.json";
+    private final Path REOURCE_DIR = ResourceHelper.getResourceDir(AT_PipelineInputResolver.class);
+    private final String TEST_OUTPUT_DIR_NAME = "testOutput";
+    private final Path TEST_OUTPUT_DIR = getResolvedResourcePath(TEST_OUTPUT_DIR_NAME);
+    private final String TEST_FILE_NAME = "pipeline_tester.json";
 
-    private static final Path getResolvedResourcePath(String path) {
+    private final Path getResolvedResourcePath(String path) {
         return REOURCE_DIR.resolve(path).toAbsolutePath();
     }
 
@@ -38,11 +38,11 @@ public class AT_PipelineInputResolver {
         PipelineTestSupport<TestPipelineInput> testPipelineInputTestSupport = new PipelineTestSupport<>(
                 ProtobufTranslationEngine.builder().build(), TestPipelineInput.getDefaultInstance(),
                 TestPipelineInput.class,
-                AT_PipelineInputResolver::getResolvedResourcePath,
-                AT_PipelineInputResolver.TEST_OUTPUT_DIR);
+                this::getResolvedResourcePath,
+                TEST_OUTPUT_DIR);
 
         PipelineInputResolver pipelineInputResolver = new PipelineInputResolver(
-                AT_PipelineInputResolver::getResolvedResourcePath);
+                this::getResolvedResourcePath);
 
         TestPipelineInput unresolvedTestPipelineInput = testPipelineInputTestSupport
                 .getUnresolvedPipelineInput(TEST_FILE_NAME);

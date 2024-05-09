@@ -32,26 +32,26 @@ import gov.hhs.aspr.ms.util.annotations.UnitTestMethod;
 import gov.hhs.aspr.ms.util.resourcehelper.ResourceHelper;
 
 public class AT_PipelineTestSupport {
-    private static final Path REOURCE_DIR = ResourceHelper.getResourceDir(AT_PipelineTestSupport.class);
-    private static final String TEST_OUTPUT_DIR_NAME = "testOutput";
-    private static final Path TEST_OUTPUT_DIR = getResolvedResourcePath(TEST_OUTPUT_DIR_NAME);
-    private static final String TEST_FILE_NAME = "pipeline_tester.json";
-    private static final String TEST_FILE_DIR_NAME = "pipeline_tester_dir.json";
-    private static final String TEST_FILE_PREV_NAME = "pipeline_tester_prev.json";
-    private static final String TEST_FILE_BAD_NAME = "pipeline_tester_bad.json";
-    private static final String TEST_FILE_NAME_RESOLVED = "pipeline_tester_resolved.json";
+    private final Path REOURCE_DIR = ResourceHelper.getResourceDir(this.getClass());
+    private final String TEST_OUTPUT_DIR_NAME = "testOutput";
+    private final Path TEST_OUTPUT_DIR = getResolvedResourcePath(TEST_OUTPUT_DIR_NAME);
+    private final String TEST_FILE_NAME = "pipeline_tester.json";
+    private final String TEST_FILE_DIR_NAME = "pipeline_tester_dir.json";
+    private final String TEST_FILE_PREV_NAME = "pipeline_tester_prev.json";
+    private final String TEST_FILE_BAD_NAME = "pipeline_tester_bad.json";
+    private final String TEST_FILE_NAME_RESOLVED = "pipeline_tester_resolved.json";
 
-    private static final String TEST_GP_FILE_1 = "globalPropertiesPluginData1.json";
-    private static final String TEST_GP_FILE_2 = "globalPropertiesPluginData2.json";
-    private static final String TEST_GP_FILE_3 = "globalPropertiesPluginData3.json";
-    private static final String TEST_GP_FILE_4 = "globalPropertiesPluginData4.json";
+    private final String TEST_GP_FILE_1 = "globalPropertiesPluginData1.json";
+    private final String TEST_GP_FILE_2 = "globalPropertiesPluginData2.json";
+    private final String TEST_GP_FILE_3 = "globalPropertiesPluginData3.json";
+    private final String TEST_GP_FILE_4 = "globalPropertiesPluginData4.json";
 
-    private static final Path TEST_GP_FILE_1_PATH = getResolvedResourcePath(TEST_GP_FILE_1);
-    private static final Path TEST_GP_FILE_2_PATH = getResolvedResourcePath(TEST_GP_FILE_2);
-    private static final Path TEST_GP_FILE_3_PATH = getResolvedResourcePath(TEST_GP_FILE_3);
-    private static final Path TEST_GP_FILE_4_PATH = getResolvedResourcePath(TEST_GP_FILE_4);
+    private final Path TEST_GP_FILE_1_PATH = getResolvedResourcePath(TEST_GP_FILE_1);
+    private final Path TEST_GP_FILE_2_PATH = getResolvedResourcePath(TEST_GP_FILE_2);
+    private final Path TEST_GP_FILE_3_PATH = getResolvedResourcePath(TEST_GP_FILE_3);
+    private final Path TEST_GP_FILE_4_PATH = getResolvedResourcePath(TEST_GP_FILE_4);
 
-    private static final Path getResolvedResourcePath(String path) {
+    private final Path getResolvedResourcePath(String path) {
         return REOURCE_DIR.resolve(path).toAbsolutePath();
     }
 
@@ -62,8 +62,8 @@ public class AT_PipelineTestSupport {
         PipelineTestSupport<TestPipelineInput> testPipelineInputTestSupport = new PipelineTestSupport<>(
                 ProtobufTranslationEngine.builder().build(), TestPipelineInput.getDefaultInstance(),
                 TestPipelineInput.class,
-                AT_PipelineTestSupport::getResolvedResourcePath,
-                AT_PipelineTestSupport.TEST_OUTPUT_DIR);
+                this::getResolvedResourcePath,
+                TEST_OUTPUT_DIR);
 
         assertNotNull(testPipelineInputTestSupport);
     }
@@ -76,8 +76,8 @@ public class AT_PipelineTestSupport {
         PipelineTestSupport<TestPipelineInput> testPipelineInputTestSupport = new PipelineTestSupport<>(
                 ProtobufTranslationEngine.builder().build(), TestPipelineInput.getDefaultInstance(),
                 TestPipelineInput.class,
-                AT_PipelineTestSupport::getResolvedResourcePath,
-                AT_PipelineTestSupport.TEST_OUTPUT_DIR);
+                this::getResolvedResourcePath,
+                TEST_OUTPUT_DIR);
 
         TestPipelineInput testPipelineInput = testPipelineInputTestSupport
                 .getUnresolvedPipelineInput(TEST_FILE_NAME);
@@ -105,8 +105,8 @@ public class AT_PipelineTestSupport {
                         .build(),
                 TestPipelineInput.getDefaultInstance(),
                 TestPipelineInput.class,
-                AT_PipelineTestSupport::getResolvedResourcePath,
-                AT_PipelineTestSupport.TEST_OUTPUT_DIR);
+                this::getResolvedResourcePath,
+                TEST_OUTPUT_DIR);
 
         assertTrue(testPipelineInputTestSupport.filesAreSame(GlobalPropertiesPluginDataInput.class,
                 GlobalPropertiesPluginData.class, TEST_GP_FILE_1_PATH, TEST_GP_FILE_2_PATH));
@@ -126,8 +126,8 @@ public class AT_PipelineTestSupport {
         PipelineTestSupport<TestPipelineInput> testPipelineInputTestSupport = new PipelineTestSupport<>(
                 ProtobufTranslationEngine.builder().build(), TestPipelineInput.getDefaultInstance(),
                 TestPipelineInput.class,
-                AT_PipelineTestSupport::getResolvedResourcePath,
-                AT_PipelineTestSupport.TEST_OUTPUT_DIR);
+                this::getResolvedResourcePath,
+                TEST_OUTPUT_DIR);
 
         TestPipelineInput unresolvedTestPipelineInput = testPipelineInputTestSupport
                 .getUnresolvedPipelineInput(TEST_FILE_NAME);
@@ -242,8 +242,8 @@ public class AT_PipelineTestSupport {
         PipelineTestSupport<TestPipelineInput> testPipelineInputTestSupport = new PipelineTestSupport<>(
                 ProtobufTranslationEngine.builder().build(), TestPipelineInput.getDefaultInstance(),
                 TestPipelineInput.class,
-                AT_PipelineTestSupport::getResolvedResourcePath,
-                AT_PipelineTestSupport.TEST_OUTPUT_DIR);
+                this::getResolvedResourcePath,
+                TEST_OUTPUT_DIR);
 
         TestPipelineInput testPipelineInput = testPipelineInputTestSupport
                 .getUnresolvedPipelineInput(TEST_FILE_NAME);
