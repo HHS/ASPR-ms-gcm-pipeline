@@ -32,26 +32,26 @@ import gov.hhs.aspr.ms.util.annotations.UnitTestMethod;
 import gov.hhs.aspr.ms.util.resourcehelper.ResourceHelper;
 
 public class AT_PipelineTestSupport {
-    private final Path REOURCE_DIR = ResourceHelper.getResourceDir(this.getClass());
-    private final String TEST_OUTPUT_DIR_NAME = "testOutput";
-    private final Path TEST_OUTPUT_DIR = getResolvedResourcePath(TEST_OUTPUT_DIR_NAME);
-    private final String TEST_FILE_NAME = "pipeline_tester.json";
-    private final String TEST_FILE_DIR_NAME = "pipeline_tester_dir.json";
-    private final String TEST_FILE_PREV_NAME = "pipeline_tester_prev.json";
-    private final String TEST_FILE_BAD_NAME = "pipeline_tester_bad.json";
-    private final String TEST_FILE_NAME_RESOLVED = "pipeline_tester_resolved.json";
+    Path REOURCE_DIR = ResourceHelper.getResourceDir(this.getClass());
+    String TEST_OUTPUT_DIR_NAME = "testOutput";
+    Path TEST_OUTPUT_DIR = getResolvedResourcePath(TEST_OUTPUT_DIR_NAME);
+    String TEST_FILE_NAME = "pipeline_tester.json";
+    String TEST_FILE_DIR_NAME = "pipeline_tester_dir.json";
+    String TEST_FILE_PREV_NAME = "pipeline_tester_prev.json";
+    String TEST_FILE_BAD_NAME = "pipeline_tester_bad.json";
+    String TEST_FILE_NAME_RESOLVED = "pipeline_tester_resolved.json";
 
-    private final String TEST_GP_FILE_1 = "globalPropertiesPluginData1.json";
-    private final String TEST_GP_FILE_2 = "globalPropertiesPluginData2.json";
-    private final String TEST_GP_FILE_3 = "globalPropertiesPluginData3.json";
-    private final String TEST_GP_FILE_4 = "globalPropertiesPluginData4.json";
+    String TEST_GP_FILE_1 = "globalPropertiesPluginData1.json";
+    String TEST_GP_FILE_2 = "globalPropertiesPluginData2.json";
+    String TEST_GP_FILE_3 = "globalPropertiesPluginData3.json";
+    String TEST_GP_FILE_4 = "globalPropertiesPluginData4.json";
 
-    private final Path TEST_GP_FILE_1_PATH = getResolvedResourcePath(TEST_GP_FILE_1);
-    private final Path TEST_GP_FILE_2_PATH = getResolvedResourcePath(TEST_GP_FILE_2);
-    private final Path TEST_GP_FILE_3_PATH = getResolvedResourcePath(TEST_GP_FILE_3);
-    private final Path TEST_GP_FILE_4_PATH = getResolvedResourcePath(TEST_GP_FILE_4);
+    Path TEST_GP_FILE_1_PATH = getResolvedResourcePath(TEST_GP_FILE_1);
+    Path TEST_GP_FILE_2_PATH = getResolvedResourcePath(TEST_GP_FILE_2);
+    Path TEST_GP_FILE_3_PATH = getResolvedResourcePath(TEST_GP_FILE_3);
+    Path TEST_GP_FILE_4_PATH = getResolvedResourcePath(TEST_GP_FILE_4);
 
-    private final Path getResolvedResourcePath(String path) {
+    Path getResolvedResourcePath(String path) {
         Path resolvedPath = REOURCE_DIR.resolve(path).toAbsolutePath();
         System.out.println(resolvedPath.toString());
         return resolvedPath;
