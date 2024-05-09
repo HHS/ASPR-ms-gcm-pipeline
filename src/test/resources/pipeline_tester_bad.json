@@ -1,0 +1,50 @@
+{
+    "badProp": false,
+    "inputDirectory": "rawInput",
+    "outputDirectory": "testOutput",
+    "testPipelineInput": {
+        "testDataFile1": "rawInput/blocks/testDataFile1.csv",
+        "testDataFile2": "rawInput/blocks/testDataFile2.csv",
+        "testDataFile3": "rawInput/blocks/testDataFile3.csv",
+        "testDataFile4": "rawInput/reports/testDataFile4.csv",
+        "pluginDataFile": "testOutput/testPluginData.json"
+    },
+    "testDimensionPipelineInput": {
+        "testSingleDimensionPipelineInput": {
+            "dimensionInstanceInput": {
+                "enabled": true,
+                "inputFile": "rawInput/dimensions/test_dimension1.csv",
+                "dimensionDataFile": "testOutput/testDimensionData1.json"
+            }
+        },
+        "testMultiDimensionPipelineInput" : {
+            "dimensionInstanceInput": [
+                {
+                    "enabled": true,
+                    "inputFile": "rawInput/dimensions/test_dimension2.csv",
+                    "dimensionDataFile": "testOutput/testDimensionData2.json"
+                },
+                {
+                    "enabled": true,
+                    "inputFile": "rawInput/dimensions/test_dimension3.csv",
+                    "dimensionDataFile": "testOutput/testDimensionData3.json"
+                },
+                {
+                    "enabled": true,
+                    "inputFile": "rawInput/dimensions/test_dimension4.csv",
+                    "dimensionDataFile": "testOutput/testDimensionData4.json"
+                },
+                {
+                    "enabled": true,
+                    "inputFile": "rawInput/dimensions/test_dimension5.csv",
+                    "dimensionDataFile": "testOutput/testDimensionData5.json"
+                },
+                {
+                    "enabled": true,
+                    "inputFile": "rawInput/dimensions/test_dimension6.csv",
+                    "dimensionDataFile": "testOutput/testDimensionData6.json"
+                }
+            ]
+        }
+    }
+}

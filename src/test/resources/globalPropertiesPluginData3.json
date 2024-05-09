@@ -1,0 +1,138 @@
+{
+  "globalPropertyDefinitinions": [{
+    "propertyId": {
+      "@type": "type.googleapis.com/gov.hhs.aspr.ms.taskit.protobuf.WrapperEnumValue",
+      "enumTypeUrl": "gov.hhs.aspr.ms.gcm.taskit.protobuf.plugins.TestGlobalPropertyIdInput",
+      "value": "GLOBAL_PROPERTY_1_BOOLEAN_MUTABLE"
+    },
+    "propertyDefinition": {
+      "propertyValuesAreMutable": false,
+      "defaultValue": {
+        "@type": "type.googleapis.com/google.protobuf.BoolValue",
+        "value": false
+      }
+    },
+    "propertyTrackingPolicy": true
+  }, {
+    "propertyId": {
+      "@type": "type.googleapis.com/gov.hhs.aspr.ms.taskit.protobuf.WrapperEnumValue",
+      "enumTypeUrl": "gov.hhs.aspr.ms.gcm.taskit.protobuf.plugins.TestGlobalPropertyIdInput",
+      "value": "GLOBAL_PROPERTY_2_INTEGER_MUTABLE"
+    },
+    "propertyDefinition": {
+      "propertyValuesAreMutable": true,
+      "defaultValue": {
+        "@type": "type.googleapis.com/google.protobuf.Int32Value",
+        "value": 0
+      }
+    },
+    "propertyTrackingPolicy": true
+  }, {
+    "propertyId": {
+      "@type": "type.googleapis.com/gov.hhs.aspr.ms.taskit.protobuf.WrapperEnumValue",
+      "enumTypeUrl": "gov.hhs.aspr.ms.gcm.taskit.protobuf.plugins.TestGlobalPropertyIdInput",
+      "value": "GLOBAL_PROPERTY_3_DOUBLE_MUTABLE"
+    },
+    "propertyDefinition": {
+      "type": "java.lang.Double",
+      "propertyValuesAreMutable": true
+    },
+    "propertyTrackingPolicy": true
+  }, {
+    "propertyId": {
+      "@type": "type.googleapis.com/gov.hhs.aspr.ms.taskit.protobuf.WrapperEnumValue",
+      "enumTypeUrl": "gov.hhs.aspr.ms.gcm.taskit.protobuf.plugins.TestGlobalPropertyIdInput",
+      "value": "GLOBAL_PROPERTY_4_BOOLEAN_IMMUTABLE"
+    },
+    "propertyDefinition": {
+      "defaultValue": {
+        "@type": "type.googleapis.com/google.protobuf.BoolValue",
+        "value": false
+      }
+    },
+    "propertyTrackingPolicy": true
+  }, {
+    "propertyId": {
+      "@type": "type.googleapis.com/gov.hhs.aspr.ms.taskit.protobuf.WrapperEnumValue",
+      "enumTypeUrl": "gov.hhs.aspr.ms.gcm.taskit.protobuf.plugins.TestGlobalPropertyIdInput",
+      "value": "GLOBAL_PROPERTY_5_INTEGER_IMMUTABLE"
+    },
+    "propertyDefinition": {
+      "defaultValue": {
+        "@type": "type.googleapis.com/google.protobuf.Int32Value",
+        "value": 0
+      }
+    },
+    "propertyTrackingPolicy": true
+  }, {
+    "propertyId": {
+      "@type": "type.googleapis.com/gov.hhs.aspr.ms.taskit.protobuf.WrapperEnumValue",
+      "enumTypeUrl": "gov.hhs.aspr.ms.gcm.taskit.protobuf.plugins.TestGlobalPropertyIdInput",
+      "value": "GLOBAL_PROPERTY_6_DOUBLE_IMMUTABLE"
+    },
+    "propertyDefinition": {
+      "defaultValue": {
+        "@type": "type.googleapis.com/google.protobuf.DoubleValue",
+        "value": 0.0
+      }
+    },
+    "propertyTrackingPolicy": true
+  }],
+  "globalPropertyValues": [{
+    "propertyId": {
+      "@type": "type.googleapis.com/gov.hhs.aspr.ms.taskit.protobuf.WrapperEnumValue",
+      "enumTypeUrl": "gov.hhs.aspr.ms.gcm.taskit.protobuf.plugins.TestGlobalPropertyIdInput",
+      "value": "GLOBAL_PROPERTY_3_DOUBLE_MUTABLE"
+    },
+    "propertyValue": {
+      "@type": "type.googleapis.com/google.protobuf.DoubleValue",
+      "value": 0.5160930745117192
+    },
+    "propertyValueTime": 0.0
+  }, {
+    "propertyId": {
+      "@type": "type.googleapis.com/gov.hhs.aspr.ms.taskit.protobuf.WrapperEnumValue",
+      "enumTypeUrl": "gov.hhs.aspr.ms.gcm.taskit.protobuf.plugins.TestGlobalPropertyIdInput",
+      "value": "GLOBAL_PROPERTY_5_INTEGER_IMMUTABLE"
+    },
+    "propertyValue": {
+      "@type": "type.googleapis.com/google.protobuf.Int32Value",
+      "value": 0
+    },
+    "propertyValueTime": 0.0
+  }, {
+    "propertyId": {
+      "@type": "type.googleapis.com/gov.hhs.aspr.ms.taskit.protobuf.WrapperEnumValue",
+      "enumTypeUrl": "gov.hhs.aspr.ms.gcm.taskit.protobuf.plugins.TestGlobalPropertyIdInput",
+      "value": "GLOBAL_PROPERTY_2_INTEGER_MUTABLE"
+    },
+    "propertyValue": {
+      "@type": "type.googleapis.com/google.protobuf.Int32Value",
+      "value": 0
+    },
+    "propertyValueTime": 0.0
+  }, {
+    "propertyId": {
+      "@type": "type.googleapis.com/gov.hhs.aspr.ms.taskit.protobuf.WrapperEnumValue",
+      "enumTypeUrl": "gov.hhs.aspr.ms.gcm.taskit.protobuf.plugins.TestGlobalPropertyIdInput",
+      "value": "GLOBAL_PROPERTY_4_BOOLEAN_IMMUTABLE"
+    },
+    "propertyValue": {
+      "@type": "type.googleapis.com/google.protobuf.BoolValue",
+      "value": false
+    },
+    "propertyValueTime": 0.0
+  }, {
+    "propertyId": {
+      "@type": "type.googleapis.com/gov.hhs.aspr.ms.taskit.protobuf.WrapperEnumValue",
+      "enumTypeUrl": "gov.hhs.aspr.ms.gcm.taskit.protobuf.plugins.TestGlobalPropertyIdInput",
+      "value": "GLOBAL_PROPERTY_1_BOOLEAN_MUTABLE"
+    },
+    "propertyValue": {
+      "@type": "type.googleapis.com/google.protobuf.BoolValue",
+      "value": false
+    },
+    "propertyValueTime": 0.0
+  }],
+  "version": "4.2.0"
+}
