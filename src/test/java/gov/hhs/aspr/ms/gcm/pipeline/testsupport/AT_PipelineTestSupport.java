@@ -52,7 +52,9 @@ public class AT_PipelineTestSupport {
     private final Path TEST_GP_FILE_4_PATH = getResolvedResourcePath(TEST_GP_FILE_4);
 
     private final Path getResolvedResourcePath(String path) {
-        return REOURCE_DIR.resolve(path).toAbsolutePath();
+        Path resolvedPath = REOURCE_DIR.resolve(path).toAbsolutePath();
+        System.out.println(resolvedPath.toString());
+        return resolvedPath;
     }
 
     @Test
