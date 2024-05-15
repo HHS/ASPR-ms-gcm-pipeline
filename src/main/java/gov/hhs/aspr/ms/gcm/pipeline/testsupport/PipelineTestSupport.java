@@ -18,6 +18,7 @@ import gov.hhs.aspr.ms.taskit.core.TranslationController;
 import gov.hhs.aspr.ms.taskit.core.TranslationEngine;
 import gov.hhs.aspr.ms.taskit.core.TranslationEngineType;
 import gov.hhs.aspr.ms.taskit.protobuf.ProtobufTranslationEngine;
+import gov.hhs.aspr.ms.util.resourcehelper.ResourceHelper;
 
 /**
  * Test support class for testing pipelines.
@@ -43,7 +44,7 @@ public class PipelineTestSupport<T extends Message> {
     private final T pipelineInputInstance;
     private final PipelineInputResolver pipelineInputResolver;
     private final Function<String, Path> resolverFunction;
-    // private final String testOutputDir;
+    private final Path testOutputDir;
 
     /**
      * Creates a PipelineTestSupport class
@@ -76,7 +77,7 @@ public class PipelineTestSupport<T extends Message> {
         this.pipelineInputClassRef = pipelineInputClassRef;
         this.pipelineInputResolver = new PipelineInputResolver(resolverFunction);
         this.resolverFunction = resolverFunction;
-        // this.testOutputDir = testOutputDir;
+        this.testOutputDir = testOutputDir;
     }
 
     /**
@@ -182,7 +183,7 @@ public class PipelineTestSupport<T extends Message> {
 
         // make outputDir
         // need to update to util 4.2.0-snapshot
-        // ResourceHelper.makeOutputDir(testOutputDir);
+        ResourceHelper.makeOutputDir(testOutputDir);
 
         return this.pipelineInputClassRef.cast(resolvedInputBuilder.build());
     }
