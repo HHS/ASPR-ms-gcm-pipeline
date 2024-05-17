@@ -182,8 +182,7 @@ public class PipelineTestSupport<T extends Message> {
         }
 
         // make outputDir
-        // need to update to util 4.2.0-snapshot
-        ResourceHelper.makeOutputDir(testOutputDir);
+        ResourceHelper.createDirectory(testOutputDir);
 
         return this.pipelineInputClassRef.cast(resolvedInputBuilder.build());
     }
