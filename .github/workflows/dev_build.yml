@@ -26,18 +26,6 @@ jobs:
         distribution: 'temurin'
         cache: maven
     
-    - name: Get GCM Version
-      run: |
-        echo "gcm_version=v$(mvn help:evaluate -Dexpression=gcm.version -q -DforceStdout --file pom.xml)" >> "$GITHUB_ENV"
-
-    - name: Checkout GCM
-      if: ${{ endsWith(env.gcm_version, 'SNAPSHOT') }}
-      uses: actions/checkout@v4
-      with:
-        repository: HHS/ASPR-8
-        path: gcm
-        ref: dev
-
     - name: Get GCM Taskit Version
       run: |
         echo "gcm_taskit_version=v$(mvn help:evaluate -Dexpression=gcm-taskit.version -q -DforceStdout --file pom.xml)" >> "$GITHUB_ENV"
@@ -50,6 +38,27 @@ jobs:
         path: gcm-taskit
         ref: dev
     
+    - name: Get GCM and Taskit Version
+      run: |
+        echo "gcm_version=v$(mvn help:evaluate -Dexpression=gcm.version -q -DforceStdout --file gcm-taskit/pom.xml)" >> "$GITHUB_ENV"
+        echo "taskit_version=v$(mvn help:evaluate -Dexpression=taskit.version -q -DforceStdout --file gcm-taskit/pom.xml)" >> "$GITHUB_ENV"
+
+    - name: Checkout GCM
+      if: ${{ endsWith(env.gcm_version, 'SNAPSHOT') }}
+      uses: actions/checkout@v4
+      with:
+        repository: HHS/ASPR-8
+        path: gcm
+        ref: dev
+
+    - name: Checkout Taskit
+      if: ${{ endsWith(env.taskit_version, 'SNAPSHOT') }}
+      uses: actions/checkout@v4
+      with:
+        repository: HHS/ASPR-ms-taskit
+        path: taskit-core
+        ref: dev
+
     - name: Get Util Version
       if: ${{ endsWith(env.gcm_version, 'SNAPSHOT') }}
       run: |
@@ -61,19 +70,6 @@ jobs:
       with:
         repository: HHS/ASPR-ms-util
         path: util
-        ref: dev
-
-    - name: Get Taskit Version
-      if: ${{ endsWith(env.gcm_taskit_version, 'SNAPSHOT') }}
-      run: |
-        echo "taskit_version=v$(mvn help:evaluate -Dexpression=taskit.version -q -DforceStdout --file gcm-taskit/pom.xml)" >> "$GITHUB_ENV"
-
-    - name: Checkout Taskit
-      if: ${{ endsWith(env.taskit_version, 'SNAPSHOT') }}
-      uses: actions/checkout@v4
-      with:
-        repository: HHS/ASPR-ms-taskit
-        path: taskit-core
         ref: dev
 
     - name: Build Util
