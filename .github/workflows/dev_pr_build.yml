@@ -39,6 +39,7 @@ jobs:
         ref: dev
     
     - name: Get GCM and Taskit Version
+      if: ${{ endsWith(env.gcm_taskit_version, 'SNAPSHOT') }}
       run: |
         echo "gcm_version=v$(mvn help:evaluate -Dexpression=gcm.version -q -DforceStdout --file gcm-taskit/pom.xml)" >> "$GITHUB_ENV"
         echo "taskit_version=v$(mvn help:evaluate -Dexpression=taskit.version -q -DforceStdout --file gcm-taskit/pom.xml)" >> "$GITHUB_ENV"
