@@ -1,0 +1,49 @@
+{
+    "inputDirectory": "rawInput",
+    "outputDirectory": "testOutput",
+    "testPipelineInput": {
+        "testDataFile1": "blocks/testDataFile1.csv",
+        "testDataFile2": "blocks/testDataFile2.csv",
+        "testDataFile3": "blocks/testDataFile3.csv",
+        "testDataFile4": "reports/testDataFile4.csv",
+        "pluginDataFile": "testPluginData.json"
+    },
+    "testDimensionPipelineInput": {
+        "testSingleDimensionPipelineInput": {
+            "dimensionInstanceInput": {
+                "enabled": true,
+                "inputFile": "dimensions/test_dimension1.csv",
+                "dimensionDataFile": "testDimensionData1.json"
+            }
+        },
+        "testMultiDimensionPipelineInput" : {
+            "dimensionInstanceInput": [
+                {
+                    "enabled": true,
+                    "inputFile": "dimensions/test_dimension2.csv",
+                    "dimensionDataFile": "testDimensionData2.json"
+                },
+                {
+                    "enabled": true,
+                    "inputFile": "dimensions/test_dimension3.csv",
+                    "dimensionDataFile": "testDimensionData3.json"
+                },
+                {
+                    "enabled": true,
+                    "inputFile": "dimensions/test_dimension4.csv",
+                    "dimensionDataFile": "testDimensionData4.json"
+                },
+                {
+                    "enabled": true,
+                    "inputFile": "dimensions/test_dimension5.csv",
+                    "dimensionDataFile": "testDimensionData5.json"
+                },
+                {
+                    "enabled": true,
+                    "inputFile": "dimensions/test_dimension6.csv",
+                    "dimensionDataFile": "testDimensionData6.json"
+                }
+            ]
+        }
+    }
+}

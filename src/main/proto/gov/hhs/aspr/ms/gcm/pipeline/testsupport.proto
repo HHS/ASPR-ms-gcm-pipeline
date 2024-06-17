@@ -1,0 +1,40 @@
+syntax = "proto3";
+package gov.hhs.aspr.ms.gcm.pipeline;
+
+option java_multiple_files = true;
+option java_package = "gov.hhs.aspr.ms.gcm.pipeline.testsupport.input";
+
+message TestPipelineInput {
+    TestSubPipelineInput testPipelineInput = 1;
+    TestDimensionPipelineInput testDimensionPipelineInput = 2;
+    optional bool runningWithPreviousData = 3;
+    optional string inputDirectory = 4;
+    optional string outputDirectory = 5;
+}
+
+message TestSubPipelineInput {
+    string testDataFile1 = 1;
+    string testDataFile2 = 2;
+    string testDataFile3 = 3;
+    string testDataFile4 = 4;
+    string pluginDataFile = 5;
+}
+
+message TestDimensionInstanceInput {
+    bool enabled = 1;
+    string inputFile = 2;
+    string dimensionDataFile = 3;
+}
+
+message TestMultiDimensionPipelineInput {
+    repeated TestDimensionInstanceInput dimensionInstanceInput = 1;
+}
+
+message TestSingleDimensionPipelineInput {
+    TestDimensionInstanceInput dimensionInstanceInput = 1;
+}
+
+message TestDimensionPipelineInput {
+    TestMultiDimensionPipelineInput testMultiDimensionPipelineInput = 1;
+    TestSingleDimensionPipelineInput testSingleDimensionPipelineInput = 2;
+}
