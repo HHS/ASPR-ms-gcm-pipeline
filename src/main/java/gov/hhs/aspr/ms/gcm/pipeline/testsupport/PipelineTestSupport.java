@@ -63,7 +63,7 @@ public class PipelineTestSupport<T extends Message> {
      * Takes in a string for the test output directory so that it can be created for
      * you when getting a resolved pipeline input.
      * 
-     * @param translationEngineBuilder
+     * @param translationEngine
      * @param pipelineInputInstance
      * @param pipelineInputClassRef
      * @param resolverFunction
