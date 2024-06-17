@@ -295,13 +295,6 @@
                         <version>${maven-javadoc-plugin.version}</version>
                         <configuration>
                             <doclint>all,-missing</doclint>
-                            <additionalDependencies>
-                                <additionalDependency>
-                                    <groupId>gov.hhs.aspr.ms.gcm</groupId>
-                                    <artifactId>simulation</artifactId>
-                                    <version>${gcm.version}</version>
-                                </additionalDependency>
-                            </additionalDependencies>
                             <author>false</author>
                             <additionalJOptions>
                                 <additionalJOption>-Xmaxerrs</additionalJOption>
