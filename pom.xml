@@ -49,7 +49,7 @@
 
     <!-- Properties -->
     <properties>
-        <revision>1.1.1</revision>
+        <revision>1.2.0-SNAPSHOT</revision>
 
         <!-- basic project properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
