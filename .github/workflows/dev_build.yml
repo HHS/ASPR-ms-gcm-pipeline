@@ -38,12 +38,11 @@ jobs:
         path: gcm-taskit
         ref: dev
     
-    - name: Get GCM and Taskit Version
+    - name: Get GCM Version
       if: ${{ endsWith(env.gcm_taskit_version, 'SNAPSHOT') }}
       run: |
         echo "gcm_version=v$(mvn help:evaluate -Dexpression=gcm.version -q -DforceStdout --file gcm-taskit/pom.xml)" >> "$GITHUB_ENV"
-        echo "taskit_version=v$(mvn help:evaluate -Dexpression=taskit.version -q -DforceStdout --file gcm-taskit/pom.xml)" >> "$GITHUB_ENV"
-
+        
     - name: Checkout GCM
       if: ${{ endsWith(env.gcm_version, 'SNAPSHOT') }}
       uses: actions/checkout@v4
@@ -52,18 +51,23 @@ jobs:
         path: gcm
         ref: dev
 
+    - name: Get Taskit Version
+      if: ${{ endsWith(env.gcm_version, 'SNAPSHOT') }}
+      run: |
+        echo "taskit_version=v$(mvn help:evaluate -Dexpression=taskit.version -q -DforceStdout --file gcm/pom.xml)" >> "$GITHUB_ENV"
+            
     - name: Checkout Taskit
       if: ${{ endsWith(env.taskit_version, 'SNAPSHOT') }}
       uses: actions/checkout@v4
       with:
         repository: HHS/ASPR-ms-taskit
-        path: taskit-core
+        path: taskit
         ref: dev
 
     - name: Get Util Version
-      if: ${{ endsWith(env.gcm_version, 'SNAPSHOT') }}
+      if: ${{ endsWith(env.taskit_version, 'SNAPSHOT') }}
       run: |
-        echo "util_version=v$(mvn help:evaluate -Dexpression=util.version -q -DforceStdout --file gcm/pom.xml)" >> "$GITHUB_ENV"
+        echo "util_version=v$(mvn help:evaluate -Dexpression=util.version -q -DforceStdout --file taskit/pom.xml)" >> "$GITHUB_ENV"
 
     - name: Checkout Util
       if: ${{ endsWith(env.util_version, 'SNAPSHOT') }}
@@ -77,13 +81,13 @@ jobs:
       if: ${{ endsWith(env.util_version, 'SNAPSHOT') }}
       run: mvn clean install -DskipTests --file util/pom.xml
   
+    - name: Build Taskit
+      if: ${{ endsWith(env.taskit_version, 'SNAPSHOT') }}
+      run: mvn clean install -DskipTests --file taskit/pom.xml
+
     - name: Build GCM
       if: ${{ endsWith(env.gcm_version, 'SNAPSHOT') }}
       run: mvn clean install -DskipTests --file gcm/pom.xml
-
-    - name: Build Taskit
-      if: ${{ endsWith(env.taskit_version, 'SNAPSHOT') }}
-      run: mvn clean install -DskipTests --file taskit-core/pom.xml
 
     - name: Build GCM Taskit
       if: ${{ endsWith(env.gcm_taskit_version, 'SNAPSHOT') }}
