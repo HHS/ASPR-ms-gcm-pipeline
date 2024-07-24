@@ -22,7 +22,7 @@ public class PipelineTestPaths {
     private static final String PIPELINE_INPUT_DIR_NAME = "pipelineInput";
 
     // name of each of the pipeline input files
-    private static final String SIM_STATE_PIPELINE_INPUT_F_NAME = "simStatePipeline.json";
+    private static final String SIM_STATE_PIPELINE_INPUT_F_NAME = "simulationStatePipeline.json";
 
     // name of each the plugin data files
     private static final String POPULATION_P_DATA_F_NAME = "populationPluginData.json";
