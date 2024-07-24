@@ -23,6 +23,7 @@ public class PipelineTestPaths {
 
     // name of each of the pipeline input files
     private static final String SIM_STATE_PIPELINE_INPUT_F_NAME = "simulationStatePipeline.json";
+    private static final String EXPERIMENT_PARAM_DATA_PIPELINE_INPUT_F_NAME = "experimentParameterDataPipeline.json";
 
     // name of each the plugin data files
     private static final String POPULATION_P_DATA_F_NAME = "populationPluginData.json";
@@ -52,6 +53,8 @@ public class PipelineTestPaths {
 
     // absolute paths to each of the pipeline input files
     public static final Path SIM_STATE_PIPELINE = getResolvedPipelineInputPath(SIM_STATE_PIPELINE_INPUT_F_NAME);
+    public static final Path EXPERIMENT_PARAM_DATA_PIPELINE = getResolvedPipelineInputPath(
+            EXPERIMENT_PARAM_DATA_PIPELINE_INPUT_F_NAME);
 
     // absolute paths to each of the expected output plugin data files
     public static final Path EXPECTED_POPULATION_PLUGIN_DATA = getResolvedOutputPath(POPULATION_P_DATA_F_NAME);

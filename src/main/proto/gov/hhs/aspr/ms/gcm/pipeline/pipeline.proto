@@ -8,3 +8,9 @@ message SimulationStatePipelineInput {
     string simulationSettingsFile = 1;
     string simulationStateFile = 2;
 }
+
+message ExperimentParameterPipelineInput {
+    string experimentParametersFile = 1;
+    string experimentParameterDataFile = 2;
+    string explicitScenarioIdsFile = 3;
+}
