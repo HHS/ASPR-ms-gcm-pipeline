@@ -22,13 +22,13 @@ import gov.hhs.aspr.ms.util.annotations.UnitTestMethod;
 import gov.hhs.aspr.ms.util.resourcehelper.ResourceHelper;
 
 public class AT_PipelineInputResolver {
-    private final Path REOURCE_DIR = ResourceHelper.getResourceDir(AT_PipelineInputResolver.class);
+    private final Path RESOURCE_DIR = ResourceHelper.getResourceDir(AT_PipelineInputResolver.class);
     private final String TEST_OUTPUT_DIR_NAME = "testOutput";
     private final Path TEST_OUTPUT_DIR = getResolvedResourcePath(TEST_OUTPUT_DIR_NAME);
     private final String TEST_FILE_NAME = "pipeline_tester.json";
 
     private final Path getResolvedResourcePath(String path) {
-        return REOURCE_DIR.resolve(path).toAbsolutePath();
+        return RESOURCE_DIR.resolve(path).toAbsolutePath();
     }
 
     @Test

@@ -1,0 +1,4 @@
+{
+    "simulationSettingsFile": "rawInput/simulation_settings.csv",
+    "simulationStateFile": "testOutput/simulationState.json"
+}
