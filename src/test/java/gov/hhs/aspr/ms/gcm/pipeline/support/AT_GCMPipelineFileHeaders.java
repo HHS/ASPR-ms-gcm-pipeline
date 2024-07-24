@@ -12,4 +12,16 @@ public class AT_GCMPipelineFileHeaders {
 	public void testSimStateSettings() {
 		assertNotNull(GCMPipelineFileHeaders.SIM_STATE_SETTINGS);
 	}
+
+	@Test
+	@UnitTestField(target = GCMPipelineFileHeaders.class, name = "EXPERIMENT_PARAMETERS")
+	public void testExperimentParameters() {
+		assertNotNull(GCMPipelineFileHeaders.EXPERIMENT_PARAMETERS);
+	}
+
+	@Test
+	@UnitTestField(target = GCMPipelineFileHeaders.class, name = "EXPLICIT_SCENARIO_IDS")
+	public void testExplicitScenarioIds() {
+		assertNotNull(GCMPipelineFileHeaders.EXPLICIT_SCENARIO_IDS);
+	}
 }

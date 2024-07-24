@@ -1,0 +1,9 @@
+property,value
+thread_count,8
+state_recording_is_scheduled,false
+simulation_halt_time,1301
+halt_on_exception,true
+continue_from_progress_log,false
+experiment_progress_log_path,PATH
+unknown_value,unknown
+//this is a comment line for testing

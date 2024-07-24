@@ -1,0 +1,8 @@
+{
+  "threadCount": 8,
+  "simulationHaltTime": 1301.0,
+  "haltOnException": true,
+  "experimentProgressLogPath": "PATH",
+  "explictScenarioIds": [0, 1],
+  "version": "4.2.0"
+}
