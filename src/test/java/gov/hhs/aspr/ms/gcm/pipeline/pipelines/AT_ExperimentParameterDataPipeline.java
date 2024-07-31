@@ -24,7 +24,7 @@ import gov.hhs.aspr.ms.util.resourcehelper.ResourceHelper;
 public class AT_ExperimentParameterDataPipeline {
 
     PipelineTestSupport<ExperimentParameterPipelineInput> pipelineInputTestSupport = new PipelineTestSupport<>(
-            PipelineTestHelper.getProtobufTranslationEngine(),
+            PipelineTestHelper.taskitEngineManager,
             ExperimentParameterPipelineInput.getDefaultInstance(), ExperimentParameterPipelineInput.class,
             PipelineTestPaths::getResolvedResourcePath, PipelineTestPaths.TEST_OUTPUT_DIR);
 
@@ -35,25 +35,27 @@ public class AT_ExperimentParameterDataPipeline {
             .getResolvedPipelineInput(unresolvedPipelineInput, false, false);
 
     @Test
-    @UnitTestMethod(target = ExperimentParameterDataPipeline.class, name = "from", args = {
+    @UnitTestMethod(target = ExperimentParameterDataPipeline.class, name = "using", args = {
             ExperimentParameterPipelineInput.class, Path.class, Path.class })
-    public void testFrom() {
+    public void testUsing() {
 
         Path inputPath = Path.of("");
         Path outputPath = Path.of("");
 
         ExperimentParameterPipelineInput pipelineInput = resolvedPipelineInput;
 
-        ExperimentParameterDataPipeline pipeline = ExperimentParameterDataPipeline.from(pipelineInput,
-                inputPath,
-                outputPath);
+        ExperimentParameterDataPipeline pipeline = new ExperimentParameterDataPipeline(
+                PipelineTestHelper.taskitEngineManager)
+                .using(pipelineInput,
+                        inputPath,
+                        outputPath);
 
         assertNotNull(pipeline);
 
         // preconditions
         // experimentParametersFile is invalid
         ContractException contractException = assertThrows(ContractException.class, () -> {
-            ExperimentParameterDataPipeline.from(
+            pipeline.using(
                     pipelineInput.toBuilder().setExperimentParametersFile("invalidPath").build(),
                     inputPath,
                     outputPath);
@@ -63,7 +65,7 @@ public class AT_ExperimentParameterDataPipeline {
 
         // explicitScenarioIdsFile is invalid
         contractException = assertThrows(ContractException.class, () -> {
-            ExperimentParameterDataPipeline.from(
+            pipeline.using(
                     pipelineInput.toBuilder().setExplicitScenarioIdsFile("invalidPath").build(),
                     inputPath, outputPath);
         });
@@ -87,9 +89,11 @@ public class AT_ExperimentParameterDataPipeline {
         ResourceHelper.createDirectory(dataFile.getParent());
         ResourceHelper.createFile(dataFile.getParent(), dataFile.getFileName().toString());
 
-        ExperimentParameterDataPipeline pipeline = ExperimentParameterDataPipeline.from(pipelineInput,
-                inputPath,
-                outputPath);
+        ExperimentParameterDataPipeline pipeline = new ExperimentParameterDataPipeline(
+                PipelineTestHelper.taskitEngineManager)
+                .using(pipelineInput,
+                        inputPath,
+                        outputPath);
 
         pipeline.execute();
 

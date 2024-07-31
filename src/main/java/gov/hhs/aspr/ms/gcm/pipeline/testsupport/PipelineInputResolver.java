@@ -8,7 +8,7 @@ import java.util.function.Function;
 import com.google.protobuf.Message;
 
 /* 
- * This class contains advanced protobuf logic to progomatically go through each field in the pipeline input and resolve the path against PipelineTestPaths.RESOURCE_DIR
+ * This class contains advanced protobuf logic to programmatically go through each field in the pipeline input and resolve the path against PipelineTestPaths.RESOURCE_DIR
  * 
  * If you are not familiar with protobuf, it is suggested to not look nor touch this code with a 10ft pole.
  * 
@@ -32,9 +32,9 @@ public class PipelineInputResolver {
      * builder
      * 
      * it determines the type of the field, either message -> normal pipeline,
-     * dimensionPipelineInput -> dimension pipeline, or primative.
+     * dimensionPipelineInput -> dimension pipeline, or primitive.
      * 
-     * for primative values, it merely copies the value as is to the builder via the
+     * for primitive values, it merely copies the value as is to the builder via the
      * set field
      * 
      * for normal pipelines and dimension pipelines, it calls the respective methods
@@ -44,7 +44,7 @@ public class PipelineInputResolver {
     }
 
     /*
-     * This mathod takes a protobuf message value
+     * This method takes a protobuf message value
      * 
      * It creates a new protobuf message builder for the message value
      * 
@@ -86,7 +86,7 @@ public class PipelineInputResolver {
      * 
      * String, in which case we can safely assume that the field is a path field and needs to be resolved
      * 
-     * Message, in which case we then go through each field within the message and potentially resolve any fields within it, recurively
+     * Message, in which case we then go through each field within the message and potentially resolve any fields within it, recursively
      * 
      * returns the new value of the field
      */

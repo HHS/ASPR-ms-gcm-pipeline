@@ -5,13 +5,13 @@
 [![GitHub Workflow Status (with event)][build-shield]][build-url]
 
 # GCM Pipeline
-A Pipeline to read heterogenous raw data files and convert them into GCM Plugin Datas for use with [GCM](https://github.com/HHS/ASPR-8).
+A Pipeline to read heterogenous raw data files and translate them into GCM PluginDatas for use with [GCM](https://github.com/HHS/ASPR-8).
 As of v1.0.0, this project is in Maven Central
 
 ## License
 Distributed under the GPLv3 License. See [LICENSE](LICENSE) for more information.
 
-Please read the [HHS vulnerability discloure](https://www.hhs.gov/vulnerability-disclosure-policy/index.html).
+Please read the [HHS vulnerability disclosure](https://www.hhs.gov/vulnerability-disclosure-policy/index.html).
 
 ## Usage 
 To use this project in your project, simply add the following dependency to your `dependencies` section of your pom.xml file.
