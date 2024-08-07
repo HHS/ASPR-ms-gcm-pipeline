@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 
+import gov.hhs.aspr.ms.gcm.pipeline.PipelineTestHelper;
 import gov.hhs.aspr.ms.gcm.pipeline.testsupport.input.TestDimensionInstanceInput;
 import gov.hhs.aspr.ms.gcm.pipeline.testsupport.input.TestDimensionPipelineInput;
 import gov.hhs.aspr.ms.gcm.pipeline.testsupport.input.TestMultiDimensionPipelineInput;
@@ -21,12 +22,8 @@ import gov.hhs.aspr.ms.gcm.pipeline.testsupport.input.TestPipelineInput;
 import gov.hhs.aspr.ms.gcm.pipeline.testsupport.input.TestSingleDimensionPipelineInput;
 import gov.hhs.aspr.ms.gcm.pipeline.testsupport.input.TestSubPipelineInput;
 import gov.hhs.aspr.ms.gcm.simulation.plugins.globalproperties.datamanagers.GlobalPropertiesPluginData;
-import gov.hhs.aspr.ms.gcm.taskit.protobuf.plugins.globalproperties.GlobalPropertiesTranslator;
 import gov.hhs.aspr.ms.gcm.taskit.protobuf.plugins.globalproperties.data.input.GlobalPropertiesPluginDataInput;
-import gov.hhs.aspr.ms.gcm.taskit.protobuf.plugins.properties.PropertiesTranslator;
-import gov.hhs.aspr.ms.gcm.taskit.protobuf.plugins.reports.ReportsTranslator;
-import gov.hhs.aspr.ms.taskit.core.TranslationEngine;
-import gov.hhs.aspr.ms.taskit.protobuf.ProtobufTranslationEngine;
+import gov.hhs.aspr.ms.taskit.core.engine.TaskitEngineManager;
 import gov.hhs.aspr.ms.util.annotations.UnitTestConstructor;
 import gov.hhs.aspr.ms.util.annotations.UnitTestMethod;
 import gov.hhs.aspr.ms.util.resourcehelper.ResourceHelper;
@@ -56,11 +53,11 @@ public class AT_PipelineTestSupport {
     }
 
     @Test
-    @UnitTestConstructor(target = PipelineTestSupport.class, args = { TranslationEngine.class, Message.class,
+    @UnitTestConstructor(target = PipelineTestSupport.class, args = { TaskitEngineManager.class, Message.class,
             Class.class, Function.class, Path.class })
     public void testConstructor() {
         PipelineTestSupport<TestPipelineInput> testPipelineInputTestSupport = new PipelineTestSupport<>(
-                ProtobufTranslationEngine.builder().build(), TestPipelineInput.getDefaultInstance(),
+                PipelineTestHelper.taskitEngineManager, TestPipelineInput.getDefaultInstance(),
                 TestPipelineInput.class,
                 this::getResolvedResourcePath,
                 TEST_OUTPUT_DIR);
@@ -74,7 +71,8 @@ public class AT_PipelineTestSupport {
             String.class })
     public void testCreateResolvedPipelineInputFile() {
         PipelineTestSupport<TestPipelineInput> testPipelineInputTestSupport = new PipelineTestSupport<>(
-                ProtobufTranslationEngine.builder().build(), TestPipelineInput.getDefaultInstance(),
+                PipelineTestHelper.taskitEngineManager,
+                TestPipelineInput.getDefaultInstance(),
                 TestPipelineInput.class,
                 this::getResolvedResourcePath,
                 TEST_OUTPUT_DIR);
@@ -98,11 +96,7 @@ public class AT_PipelineTestSupport {
             Path.class, Path.class })
     public void testFilesAreSame() {
         PipelineTestSupport<TestPipelineInput> testPipelineInputTestSupport = new PipelineTestSupport<>(
-                ProtobufTranslationEngine.builder()
-                        .addTranslator(GlobalPropertiesTranslator.getTranslator())
-                        .addTranslator(PropertiesTranslator.getTranslator())
-                        .addTranslator(ReportsTranslator.getTranslator())
-                        .build(),
+                PipelineTestHelper.taskitEngineManager,
                 TestPipelineInput.getDefaultInstance(),
                 TestPipelineInput.class,
                 this::getResolvedResourcePath,
@@ -124,7 +118,8 @@ public class AT_PipelineTestSupport {
             boolean.class })
     public void testGetResolvedPipelineInput() {
         PipelineTestSupport<TestPipelineInput> testPipelineInputTestSupport = new PipelineTestSupport<>(
-                ProtobufTranslationEngine.builder().build(), TestPipelineInput.getDefaultInstance(),
+                PipelineTestHelper.taskitEngineManager,
+                TestPipelineInput.getDefaultInstance(),
                 TestPipelineInput.class,
                 this::getResolvedResourcePath,
                 TEST_OUTPUT_DIR);
@@ -240,7 +235,8 @@ public class AT_PipelineTestSupport {
             String.class })
     public void testGetUnresolvedPipelineInput() {
         PipelineTestSupport<TestPipelineInput> testPipelineInputTestSupport = new PipelineTestSupport<>(
-                ProtobufTranslationEngine.builder().build(), TestPipelineInput.getDefaultInstance(),
+                PipelineTestHelper.taskitEngineManager,
+                TestPipelineInput.getDefaultInstance(),
                 TestPipelineInput.class,
                 this::getResolvedResourcePath,
                 TEST_OUTPUT_DIR);
@@ -295,7 +291,8 @@ public class AT_PipelineTestSupport {
         });
 
         assertEquals(
-                "Provided path does not exist: " + getResolvedResourcePath("badFile.json").toAbsolutePath().toString(),
+                "Provided path does not exist: "
+                        + getResolvedResourcePath("badFile.json").toAbsolutePath().toString(),
                 runtimeException.getMessage());
 
         // json is bad/has unknown fields

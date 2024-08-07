@@ -23,7 +23,7 @@ import gov.hhs.aspr.ms.util.resourcehelper.ResourceHelper;
 
 public class AT_SimulationStatePipeline {
     PipelineTestSupport<SimulationStatePipelineInput> pipelineInputTestSupport = new PipelineTestSupport<>(
-            PipelineTestHelper.getProtobufTranslationEngine(),
+            PipelineTestHelper.taskitEngineManager,
             SimulationStatePipelineInput.getDefaultInstance(), SimulationStatePipelineInput.class,
             PipelineTestPaths::getResolvedResourcePath, PipelineTestPaths.TEST_OUTPUT_DIR);
 
@@ -44,14 +44,15 @@ public class AT_SimulationStatePipeline {
 
         SimulationStatePipelineInput pipelineInput = resolvedPipelineInput;
 
-        SimulationStatePipeline pipeline = SimulationStatePipeline.from(pipelineInput, inputPath, outputPath);
+        SimulationStatePipeline pipeline = new SimulationStatePipeline(PipelineTestHelper.taskitEngineManager)
+                .using(pipelineInput, inputPath, outputPath);
 
         assertNotNull(pipeline);
 
         // preconditions
         // simStateSettingsFile is invalid
         ContractException contractException = assertThrows(ContractException.class, () -> {
-            SimulationStatePipeline.from(
+            pipeline.using(
                     pipelineInput.toBuilder().setSimulationSettingsFile("invalidPath").build(),
                     inputPath, outputPath);
         });
@@ -75,7 +76,8 @@ public class AT_SimulationStatePipeline {
         ResourceHelper.createDirectory(dataFile.getParent());
         ResourceHelper.createFile(dataFile.getParent(), dataFile.getFileName().toString());
 
-        SimulationStatePipeline pipeline = SimulationStatePipeline.from(pipelineInput, inputPath, outputPath);
+        SimulationStatePipeline pipeline = new SimulationStatePipeline(PipelineTestHelper.taskitEngineManager)
+                .using(pipelineInput, inputPath, outputPath);
 
         pipeline.execute();
 
@@ -90,7 +92,7 @@ public class AT_SimulationStatePipeline {
                 .build();
 
         RuntimeException runtimeException = assertThrows(RuntimeException.class, () -> {
-            SimulationStatePipeline.from(badDate, inputPath, outputPath).execute();
+            pipeline.using(badDate, inputPath, outputPath).execute();
         });
 
         assertEquals(DateTimeParseException.class, runtimeException.getCause().getClass());

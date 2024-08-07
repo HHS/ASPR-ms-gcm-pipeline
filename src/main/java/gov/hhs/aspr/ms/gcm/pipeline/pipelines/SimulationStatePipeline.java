@@ -7,16 +7,13 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import gov.hhs.aspr.ms.gcm.pipeline.ATypedPipeline;
 import gov.hhs.aspr.ms.gcm.pipeline.input.SimulationStatePipelineInput;
 import gov.hhs.aspr.ms.gcm.pipeline.support.GCMPipelineFileHeaders;
-import gov.hhs.aspr.ms.gcm.pipeline.IPipeline;
 import gov.hhs.aspr.ms.gcm.simulation.nucleus.SimulationState;
-import gov.hhs.aspr.ms.gcm.taskit.protobuf.nucleus.NucleusTranslator;
 import gov.hhs.aspr.ms.gcm.taskit.protobuf.nucleus.input.SimulationStateInput;
-import gov.hhs.aspr.ms.gcm.taskit.protobuf.nucleus.translationSpecs.SimulationStateTranslationSpec;
-import gov.hhs.aspr.ms.taskit.core.TranslationController;
-import gov.hhs.aspr.ms.taskit.core.TranslationEngineType;
-import gov.hhs.aspr.ms.taskit.protobuf.ProtobufTranslationEngine;
+import gov.hhs.aspr.ms.taskit.core.engine.TaskitEngineManager;
+import gov.hhs.aspr.ms.taskit.protobuf.engine.ProtobufTaskitEngineId;
 import gov.hhs.aspr.ms.util.errors.ContractException;
 import gov.hhs.aspr.ms.util.readers.TextTableReader;
 import gov.hhs.aspr.ms.util.resourcehelper.ResourceError;
@@ -26,7 +23,7 @@ import gov.hhs.aspr.ms.util.resourcehelper.ResourceHelper;
  * A utility for constructing the SimulationState file from the
  * simStateSettingsFile
  */
-public class SimulationStatePipeline implements IPipeline {
+public class SimulationStatePipeline extends ATypedPipeline<SimulationStatePipelineInput> {
 
     /**
      * Given a {@link SimulationStatePipelineInput}, an input directory path and an
@@ -37,28 +34,28 @@ public class SimulationStatePipeline implements IPipeline {
      *                           <li>{@link ResourceError#UNKNOWN_FILE} if any of
      *                           the input paths are not valid</li>
      *                           <li>{@link ResourceError#FILE_PATH_IS_DIRECTORY} if
-     *                           any of the input paths or output path point to a directory</li>
+     *                           any of the input paths or output path point to a
+     *                           directory</li>
      *                           </ul>
      */
-    public static SimulationStatePipeline from(SimulationStatePipelineInput pipelineInput, Path inputDirectory,
+    public SimulationStatePipeline using(SimulationStatePipelineInput pipelineInput, Path inputDirectory,
             Path outputDirectory) {
-        String simStateSettingsFile = inputDirectory.resolve(pipelineInput.getSimulationSettingsFile()).toString();
-        String simStateFile = outputDirectory.resolve(pipelineInput.getSimulationStateFile()).toString();
 
-        Path simStateSettingsPath = ResourceHelper.validateFile(simStateSettingsFile);
+        this.simStateSettingsFilePath = ResourceHelper
+                .validateFile(inputDirectory.resolve(pipelineInput.getSimulationSettingsFile()));
 
-        Path simStatePath = ResourceHelper.validateFilePath(simStateFile);
+        this.simStateFilePath = ResourceHelper
+                .validateFilePath(outputDirectory.resolve(pipelineInput.getSimulationStateFile()));
 
-        return new SimulationStatePipeline(simStateSettingsPath, simStatePath);
+        return this;
     }
 
-    private final Path simStateSettingsFile;
+    private Path simStateSettingsFilePath;
 
-    private final Path simStateFile;
+    private Path simStateFilePath;
 
-    private SimulationStatePipeline(Path simStateSettingsFile, Path simStateDataFile) {
-        this.simStateSettingsFile = simStateSettingsFile;
-        this.simStateFile = simStateDataFile;
+    public SimulationStatePipeline(TaskitEngineManager taskitEngineManager) {
+        super(taskitEngineManager);
     }
 
     /**
@@ -73,26 +70,18 @@ public class SimulationStatePipeline implements IPipeline {
         loadSimStateSettingsFile(builder);
 
         System.out.println("SimulationState Pipeline::translating simulation state");
-        // create the translation engine and have it use the nucleus translator and
-        ProtobufTranslationEngine protobufTranslationEngine = ProtobufTranslationEngine.builder()//
-                .addTranslator(NucleusTranslator.getTranslator())//
-                .build();//
-
-        SimulationStateTranslationSpec translationSpec = new SimulationStateTranslationSpec();
-        translationSpec.init(protobufTranslationEngine);
-
-        SimulationStateInput input = translationSpec.convert(builder.build());
+        SimulationStateInput translatedObject = this.taskitEngineManager.translateObject(builder.build(),
+                ProtobufTaskitEngineId.JSON_ENGINE_ID);
+        // null out the data
         builder = null;
 
         System.out.println("SimulationState Pipeline::writing simulation state");
-        // build the translation controller and have it write the SimulationState file
-        TranslationController.builder()
-                .addTranslationEngine(protobufTranslationEngine)//
-                .build()//
-                .writeOutput(input, simStateFile, TranslationEngineType.PROTOBUF);//
+        this.taskitEngineManager.write(this.simStateFilePath, translatedObject,
+                ProtobufTaskitEngineId.JSON_ENGINE_ID);
+        // null out the data
+        translatedObject = null;
 
         System.out.println("SimulationState Pipeline::done");
-
     }
 
     private void loadSimStateSettingsFile(SimulationState.Builder builder) {
@@ -103,31 +92,31 @@ public class SimulationStatePipeline implements IPipeline {
         formatters.add(DateTimeFormatter.ofPattern("uuuu-M-d"));
         formatters.add(DateTimeFormatter.ofPattern("uuuu/M/d"));
 
-        TextTableReader.read(",", GCMPipelineFileHeaders.SIM_STATE_SETTINGS, simStateSettingsFile, (values) -> {
+        TextTableReader.read(",", GCMPipelineFileHeaders.SIM_STATE_SETTINGS, simStateSettingsFilePath, (values) -> {
             switch (values[0]) {
-            case "start_time":
-                builder.setStartTime(Double.parseDouble(values[1]));
-                break;
-            case "base_date":
-                LocalDate localDate;
-                RuntimeException runtimeException = null;
-                for (DateTimeFormatter formatter : formatters) {
-                    try {
-                        localDate = LocalDate.parse(values[1], formatter);
-                        builder.setBaseDate(localDate);
-                        runtimeException = null;
-                        break;
-                    } catch (DateTimeParseException e) {
-                        runtimeException = new RuntimeException(e);
+                case "start_time":
+                    builder.setStartTime(Double.parseDouble(values[1]));
+                    break;
+                case "base_date":
+                    LocalDate localDate;
+                    RuntimeException runtimeException = null;
+                    for (DateTimeFormatter formatter : formatters) {
+                        try {
+                            localDate = LocalDate.parse(values[1], formatter);
+                            builder.setBaseDate(localDate);
+                            runtimeException = null;
+                            break;
+                        } catch (DateTimeParseException e) {
+                            runtimeException = new RuntimeException(e);
+                        }
                     }
-                }
 
-                if (runtimeException != null) {
-                    throw runtimeException;
-                }
+                    if (runtimeException != null) {
+                        throw runtimeException;
+                    }
 
-                break;
-            // plans are not currently supported
+                    break;
+                // plans are not currently supported
             }
         });
     }
