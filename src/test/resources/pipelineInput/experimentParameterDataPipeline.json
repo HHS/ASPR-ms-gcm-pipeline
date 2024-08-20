@@ -1,0 +1,5 @@
+{
+    "experimentParametersFile": "rawInput/experiment_parameters.csv",
+    "explicitScenarioIdsFile": "rawInput/explicit_scenario_ids.csv",
+    "experimentParameterDataFile": "testOutput/experimentParameterData.json"
+}

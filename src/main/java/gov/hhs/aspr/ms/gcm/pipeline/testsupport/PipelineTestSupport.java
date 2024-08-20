@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -14,10 +13,8 @@ import com.google.protobuf.Message;
 import com.google.protobuf.util.JsonFormat;
 import com.google.protobuf.util.JsonFormat.Parser;
 
-import gov.hhs.aspr.ms.taskit.core.TranslationController;
-import gov.hhs.aspr.ms.taskit.core.TranslationEngine;
-import gov.hhs.aspr.ms.taskit.core.TranslationEngineType;
-import gov.hhs.aspr.ms.taskit.protobuf.ProtobufTranslationEngine;
+import gov.hhs.aspr.ms.taskit.core.engine.TaskitEngineManager;
+import gov.hhs.aspr.ms.taskit.protobuf.engine.ProtobufTaskitEngineId;
 import gov.hhs.aspr.ms.util.resourcehelper.ResourceHelper;
 
 /**
@@ -39,7 +36,7 @@ import gov.hhs.aspr.ms.util.resourcehelper.ResourceHelper;
  */
 public class PipelineTestSupport<T extends Message> {
 
-    private final TranslationEngine translationEngine;
+    private final TaskitEngineManager taskitEngineManager;
     private final Class<T> pipelineInputClassRef;
     private final T pipelineInputInstance;
     private final PipelineInputResolver pipelineInputResolver;
@@ -63,16 +60,16 @@ public class PipelineTestSupport<T extends Message> {
      * Takes in a string for the test output directory so that it can be created for
      * you when getting a resolved pipeline input.
      * 
-     * @param translationEngine
+     * @param taskitEngineManager
      * @param pipelineInputInstance
      * @param pipelineInputClassRef
      * @param resolverFunction
      * @param testOutputDir
      * 
      */
-    public PipelineTestSupport(TranslationEngine translationEngine, T pipelineInputInstance,
+    public PipelineTestSupport(TaskitEngineManager taskitEngineManager, T pipelineInputInstance,
             Class<T> pipelineInputClassRef, Function<String, Path> resolverFunction, Path testOutputDir) {
-        this.translationEngine = translationEngine;
+        this.taskitEngineManager = taskitEngineManager;
         this.pipelineInputInstance = pipelineInputInstance;
         this.pipelineInputClassRef = pipelineInputClassRef;
         this.pipelineInputResolver = new PipelineInputResolver(resolverFunction);
@@ -84,17 +81,15 @@ public class PipelineTestSupport<T extends Message> {
      * Given a pipeline input and a file name, uses taskit to output the pipeline
      * input to a file with the given name.
      * 
-     * uses a protobuf translation engine and the file will be writen in json
+     * uses a protobuf translation engine and the file will be written in json
      */
     public String createResolvedPipelineInputFile(T input, String fileName) {
         T.Builder builder = input.toBuilder();
 
         Path resolvedPipelineInputPath = this.resolverFunction.apply(fileName);
-        TranslationController.builder()
-                .addTranslationEngine(ProtobufTranslationEngine.builder().build())
-                .build()
-                .writeOutput(builder.build(), resolvedPipelineInputPath, TranslationEngineType.PROTOBUF);
 
+        this.taskitEngineManager.write(resolvedPipelineInputPath, builder.build(),
+                ProtobufTaskitEngineId.JSON_ENGINE_ID);
         return resolvedPipelineInputPath.toString();
     }
 
@@ -114,19 +109,10 @@ public class PipelineTestSupport<T extends Message> {
     public <INPUT_OBJ extends Message, APP_OBJ> boolean filesAreSame(Class<INPUT_OBJ> inputClassRef,
             Class<APP_OBJ> outputClassRef, Path pathOfExpectedOutput, Path pathOfActualOutput) {
 
-        TranslationController translationController = TranslationController.builder()
-                .addTranslationEngine(this.translationEngine)
-                .addInputFilePath(pathOfExpectedOutput, inputClassRef,
-                        this.translationEngine.getTranslationEngineType())
-                .addInputFilePath(pathOfActualOutput, inputClassRef, this.translationEngine.getTranslationEngineType())
-                .build();
-
-        translationController.readInput();
-
-        List<APP_OBJ> inputObjs = translationController.getObjects(outputClassRef);
-
-        APP_OBJ obj1 = inputObjs.get(0);
-        APP_OBJ obj2 = inputObjs.get(1);
+        APP_OBJ obj1 = this.taskitEngineManager.readAndTranslate(pathOfExpectedOutput, inputClassRef,
+                ProtobufTaskitEngineId.JSON_ENGINE_ID);
+        APP_OBJ obj2 = this.taskitEngineManager.readAndTranslate(pathOfActualOutput, inputClassRef,
+                ProtobufTaskitEngineId.JSON_ENGINE_ID);
 
         return obj1.equals(obj2) && obj1.toString().equals(obj2.toString());
     }
@@ -144,7 +130,7 @@ public class PipelineTestSupport<T extends Message> {
      * <p>
      * ---------------------
      * <p>
-     * For the input and out directory, the variable names MUST BE: 'inputDirectory'
+     * For the input and output directory, the variable names MUST BE: 'inputDirectory'
      * and 'outputDirectory' otherwise they will not be resolved.
      * <p>
      * For the setPrev option, it will set the value of 'runningWithPreviousData' to

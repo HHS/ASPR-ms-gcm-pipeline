@@ -11,32 +11,33 @@ import org.junit.jupiter.api.Test;
 import com.google.protobuf.Descriptors.FieldDescriptor;
 import com.google.protobuf.Message;
 
+import gov.hhs.aspr.ms.gcm.pipeline.PipelineTestHelper;
 import gov.hhs.aspr.ms.gcm.pipeline.testsupport.input.TestDimensionInstanceInput;
 import gov.hhs.aspr.ms.gcm.pipeline.testsupport.input.TestDimensionPipelineInput;
 import gov.hhs.aspr.ms.gcm.pipeline.testsupport.input.TestMultiDimensionPipelineInput;
 import gov.hhs.aspr.ms.gcm.pipeline.testsupport.input.TestPipelineInput;
 import gov.hhs.aspr.ms.gcm.pipeline.testsupport.input.TestSingleDimensionPipelineInput;
 import gov.hhs.aspr.ms.gcm.pipeline.testsupport.input.TestSubPipelineInput;
-import gov.hhs.aspr.ms.taskit.protobuf.ProtobufTranslationEngine;
 import gov.hhs.aspr.ms.util.annotations.UnitTestMethod;
 import gov.hhs.aspr.ms.util.resourcehelper.ResourceHelper;
 
 public class AT_PipelineInputResolver {
-    private final Path REOURCE_DIR = ResourceHelper.getResourceDir(AT_PipelineInputResolver.class);
+    private final Path RESOURCE_DIR = ResourceHelper.getResourceDir(AT_PipelineInputResolver.class);
     private final String TEST_OUTPUT_DIR_NAME = "testOutput";
     private final Path TEST_OUTPUT_DIR = getResolvedResourcePath(TEST_OUTPUT_DIR_NAME);
     private final String TEST_FILE_NAME = "pipeline_tester.json";
 
     private final Path getResolvedResourcePath(String path) {
-        return REOURCE_DIR.resolve(path).toAbsolutePath();
+        return RESOURCE_DIR.resolve(path).toAbsolutePath();
     }
 
     @Test
-    @UnitTestMethod(target = PipelineInputResolver.class, name = "resolvePipelineInput", args = { FieldDescriptor.class,
+    @UnitTestMethod(target = PipelineInputResolver.class, name = "resolvePipelineInput", args = {
+            FieldDescriptor.class,
             Object.class, Message.Builder.class })
     public void testResolvePipelineInput() {
         PipelineTestSupport<TestPipelineInput> testPipelineInputTestSupport = new PipelineTestSupport<>(
-                ProtobufTranslationEngine.builder().build(), TestPipelineInput.getDefaultInstance(),
+                PipelineTestHelper.taskitEngineManager, TestPipelineInput.getDefaultInstance(),
                 TestPipelineInput.class,
                 this::getResolvedResourcePath,
                 TEST_OUTPUT_DIR);
