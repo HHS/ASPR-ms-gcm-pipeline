@@ -75,7 +75,7 @@
         <gcm-taskit.version>3.0.0</gcm-taskit.version>
         <protoc.version>3.25.2</protoc.version>
         <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
-        <junit-jupiter-engine.version>5.11.0</junit-jupiter-engine.version>
+        <junit-jupiter-engine.version>5.11.1</junit-jupiter-engine.version>
     </properties>
 
     <dependencies>
