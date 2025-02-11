@@ -4,5 +4,5 @@
   "haltOnException": true,
   "experimentProgressLogPath": "PATH",
   "explictScenarioIds": [0, 1],
-  "version": "4.2.0"
+  "version": "4.4.0"
 }
